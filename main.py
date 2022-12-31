@@ -3,7 +3,7 @@ import ctypes
 import pytesseract
 import pyscreenshot
 from deep_translator import GoogleTranslator
-from pynput.keyboard import Key, Listener
+import keyboard
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
 
@@ -20,11 +20,14 @@ def translate():
     dst = cv2.fastNlMeansDenoisingColored(img, None, 10, 10, 7, 15) 
     # Plotting of source and destination image 
     plt.subplot(121), plt.imshow(img) 
-    plt.subplot(122), plt.imshow(dst) 
-    plt.show()
+    plt.subplot(122), plt.imshow(dst)
 
     text = pytesseract.image_to_string(dst)
 
     translated = GoogleTranslator(source='english', target='portuguese').translate(text)
 
     ctypes.windll.user32.MessageBoxW(0, translated, "Your title", 1)
+
+while True:
+    if (keyboard.is_pressed("t")):
+        translate()
